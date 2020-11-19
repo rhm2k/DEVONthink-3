@@ -1,10 +1,12 @@
 -- Source: https://github.com/bcdavasconcelos/DEVONthink-3
--- Mods RHM 2020-07-20 
+-- Mods RHM 2020-08-01 23:19  
+-- Metadata block revision 2020-08-12
 -- Option changed to add clipboard: true
 -- Option changed to add return link: true
 -- Set invalidName to true in order to elicit new file name
 
-property WikiTop : "tags: #"
+property WikiTop : "---" & return & "- tags: " & return & "- creation: " & return & "- revision: " & return & "- reference: "
+property WikiBottom : "- links: " & return & "---"
 property OptionToAddClipboard : true
 property OptionToAddReturnLink : true
 property CreateInSameGroup : true
@@ -45,7 +47,7 @@ tell application id "DNtp"
 		
 		if OptionToAddClipboard then
 			set theClipOption to {"true", "false"}
-			set theClip to choose from list theClipOption with prompt "Append clipboard to note?" default items {"true"}
+			set theClip to choose from list theClipOption with prompt "Append clipboard to note?" default items {"false"}
 			set theClipAns to item 1 of theClip
 			if theClipAns is "true" then set theMDbody to "# " & theName & return & return & "{{TOC}}" & return & return & theSelection & return & return & (the clipboard)
 			if theClipAns is not "true" then set theMDbody to "# " & theName & return & return & "{{TOC}}" & return & return & theSelection & return & return
@@ -61,8 +63,8 @@ tell application id "DNtp"
 			set theBLC to {"true", "false"}
 			set theBL to choose from list theBLC with prompt "Insert link back to source?" default items {"true"}
 			set theBLR to item 1 of theBL -- Resultado da escolha
-			if theBLR is "true" then set theMD to theMDbody & return & return & WikiTop & return & return & "# Source " & return & "[[" & theSource & "]]  " & return
-			if theBLR is not "true" then set theMD to theMDbody & return & return & WikiTop & return & return
+			if theBLR is "true" then set theMD to theMDbody & return & return & WikiTop & "[[" & theSource & "]]  " & return & WikiBottom & return
+			if theBLR is not "true" then set theMD to theMDbody & return & return & WikiTop & "  " & return & WikiBottom & return
 		else
 			set theMD to theMDbody & return & return & WikiTop
 		end if
